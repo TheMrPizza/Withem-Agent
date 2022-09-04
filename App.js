@@ -20,7 +20,7 @@ import {
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
-import { HomePage } from './pages';
+import { HomePage, ProfilePage } from './pages';
 
 const Stack = createNativeStackNavigator();
 
@@ -29,7 +29,8 @@ const App: () => Node = () => {
       <SafeAreaView style={{flex: 1}}>
           <NavigationContainer>
               <Stack.Navigator screenOptions={{headerShown: false}}>
-                  <Stack.Screen name="home-page" component={HomePage} />
+                <Stack.Screen name="profile-page" component={ProfilePage} />
+                <Stack.Screen name="home-page" component={HomePage} />
               </Stack.Navigator>
           </NavigationContainer>
       </SafeAreaView>

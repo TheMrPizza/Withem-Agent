@@ -1,17 +1,22 @@
 import React from 'react';
-import { Button, SafeAreaView, Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
-import Colors from 'react-native/Libraries/NewAppScreen/components/Colors';
+import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
 
-const HomePage = () => (
-	<View style={styles.container}>
-		<View style={styles.container2}>
-			<Image source={require("../../assets/logo.png")} style={styles.logo} />
-			<TouchableOpacity style={styles.button}>
-				<Text style={styles.buttonText}>Start Here</Text>
-			</TouchableOpacity>
+const HomePage = ({navigation}) => {
+	const onPress = () => {
+		navigation.navigate('profile-page');
+	};
+
+	return (
+		<View style={styles.container}>
+			<View style={styles.container2}>
+				<Image source={require("../../assets/logo.png")} style={styles.logo}/>
+				<TouchableOpacity style={styles.button} onPress={onPress}>
+					<Text style={styles.buttonText}>Start Here</Text>
+				</TouchableOpacity>
+			</View>
 		</View>
-	</View>
-);
+	);
+};
 
 const styles = StyleSheet.create({
 	container: {
