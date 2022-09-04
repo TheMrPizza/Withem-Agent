@@ -18,17 +18,12 @@ const phoneMovementSensor = async(sendData) => {
             }
 
             const movement = Math.pow(setup.x - Math.abs(x), 2) + Math.pow(setup.y - Math.abs(y), 2) + Math.pow(setup.z - Math.abs(z), 2);
-
             if (movement >= MOVEMENT_THRESHOLD) {
               sendData(SENSOR_TYPE);
             }
           },
           error => console.log("The sensor is not available", error)
         );
-
-    const sleep = (ms) => new Promise(resolve => setTimeout(resolve, ms));
-    await sleep(30000);
-    subscription.unsubscribe();
 };
 
 export default phoneMovementSensor;
