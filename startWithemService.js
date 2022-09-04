@@ -1,6 +1,12 @@
-const bootstrap = require('./service/bootstrap');
+import bootstrap from './service/bootstrap';
+import sendData from './service/serverCommunicator';
 
-module.exports = async() => {
+const startWithemService = async() => {
     console.log('Starting Withem service...');
-    console.log(bootstrap);
-}
+
+    for (const sensor in bootstrap.sensors) {
+        sensor(sendData);
+    }
+};
+
+module.exports = startWithemService;

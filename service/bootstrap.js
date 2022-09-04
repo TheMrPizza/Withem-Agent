@@ -1,5 +1,7 @@
-const sensors = [
+import phoneMovementSensor from './sensors/phoneMovementSensor';
 
+const sensors = [
+    phoneMovementSensor,
 ];
 
-export {sensors};
+export default {sensors};
