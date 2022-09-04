@@ -7,10 +7,4 @@ import App from './App';
 import {name as appName} from './app.json';
 
 AppRegistry.registerComponent(appName, () => App);
-AppRegistry.registerHeadlessTask('SomeTaskName', () => {
-    console.log('a');
-
-    return async () => {
-        console.log('b');
-    }
-});
+AppRegistry.registerHeadlessTask('WithemService', () => require('./startWithemService'));

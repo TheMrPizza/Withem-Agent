@@ -7,13 +7,13 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.jstasks.HeadlessJsTaskConfig;
 import javax.annotation.Nullable;
 
-public class MyTaskService extends HeadlessJsTaskService {
+public class WithemService extends HeadlessJsTaskService {
 
   @Override
   protected @Nullable HeadlessJsTaskConfig getTaskConfig(Intent intent) {
     Bundle extras = intent.getExtras();
     return new HeadlessJsTaskConfig(
-        "SomeTaskName",
+        "WithemService",
         Arguments.fromBundle(extras),
         5000, // timeout for the task
         true // optional: defines whether or not  the task is allowed in foreground. Default is false

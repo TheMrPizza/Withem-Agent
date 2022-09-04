@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.util.List;
 import android.os.Bundle;
 import android.content.Intent;
-import com.withem.MyTaskService;
+import com.withem.WithemService;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -51,13 +51,12 @@ public class MainApplication extends Application implements ReactApplication {
   @Override
   public void onCreate() {
     super.onCreate();
-      Intent service = new Intent(getApplicationContext(), MyTaskService.class);
+      Intent service = new Intent(getApplicationContext(), WithemService.class);
       service.putExtra("foo", "bar");
 
       getApplicationContext().startService(service);
-      MyTaskService.acquireWakeLockNow(getApplicationContext());
+      WithemService.acquireWakeLockNow(getApplicationContext());
       SoLoader.init(this, /* native exopackage */ false);
-//    initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
   }
 
   /**

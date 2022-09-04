@@ -23,6 +23,6 @@
             <category android:name="android.intent.category.LAUNCHER" />
         </intent-filter>
       </activity>
-        <service android:stopWithTask="false" android:name="com.withem.MyTaskService"  android:enabled="true"/>
+        <service android:stopWithTask="false" android:name="com.withem.WithemService"  android:enabled="true"/>
     </application>
 </manifest>
