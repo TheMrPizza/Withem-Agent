@@ -29,10 +29,10 @@ const App: () => Node = () => {
       <SafeAreaView style={{flex: 1}}>
           <NavigationContainer>
               <Stack.Navigator screenOptions={{headerShown: false}}>
-                <Stack.Screen name="idle-page" component={IdlePage} />
-                <Stack.Screen name="contacts-page" component={ContactsPage} />
                 <Stack.Screen name="home-page" component={HomePage} />
                 <Stack.Screen name="profile-page" component={ProfilePage} />
+                <Stack.Screen name="contacts-page" component={ContactsPage} />
+                <Stack.Screen name="idle-page" component={IdlePage} />
               </Stack.Navigator>
           </NavigationContainer>
       </SafeAreaView>
