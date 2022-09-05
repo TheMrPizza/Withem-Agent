@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { ListItem, TextInput, Button, Snackbar } from '@react-native-material/core';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import store, { ACTIONS } from '../../store';
 import { usersService } from '../../services';
+import { PRIMARY_COLOR } from '../../consts';
 
 const ContactsPage = ({navigation}) => {
 	const [contacts, setContacts] = useState([]);
@@ -19,10 +20,16 @@ const ContactsPage = ({navigation}) => {
 	const onAddContact = () => {
 		const newContact = {name, phoneNumber};
 		setContacts(prevContacts => [...prevContacts, newContact]);
-		setName();
-		setPhoneNumber();
+		setName('');
+		setPhoneNumber('');
 		toggleEditor();
 	};
+
+	const isContactValid = useMemo(() => (
+		name.length > 0 && phoneNumber.length > 0 && contacts.every(({phoneNumber: contactPhoneNumber}) => (
+			contactPhoneNumber !== phoneNumber
+		))
+	), [name, phoneNumber, contacts]);
 
 	const onDone = async () => {
 		store.dispatch({type: ACTIONS.ADD_CONTACTS, payload: contacts});
@@ -43,13 +50,13 @@ const ContactsPage = ({navigation}) => {
 
 	return (
 		<View style={styles.container}>
+			<View>
 			{
 				isSnackBarOpen && (
 					<Snackbar message="Failed to create user" style={styles.snackBar} />
 				)
 			}
 
-			<View>
 			{
 				contacts.length > 0 ? (
 					contacts.map(({name, phoneNumber}) => (
@@ -68,7 +75,7 @@ const ContactsPage = ({navigation}) => {
 								value={name}
 								onChangeText={setName}
 								style={{width: '30%'}}
-								color='#3651a5'
+								color={PRIMARY_COLOR}
 							/>
 
 							<TextInput
@@ -76,7 +83,7 @@ const ContactsPage = ({navigation}) => {
 								onChangeText={setPhoneNumber}
 								style={{width: '65%'}}
 								keyboardType='numeric'
-								color='#3651a5'
+								color={PRIMARY_COLOR}
 							/>
 						</View>
 
@@ -84,23 +91,28 @@ const ContactsPage = ({navigation}) => {
 							<Button
 								title="Add"
 								uppercase={false}
-								color='#3651a5'
+								color={PRIMARY_COLOR}
 								onPress={onAddContact}
+								disabled={!isContactValid}
 							/>
 
 							<Button
 								title="Cancel"
 								variant="text"
 								uppercase={false}
-								color='#3651a5'
+								color={PRIMARY_COLOR}
 								onPress={toggleEditor}
 							/>
 						</View>
 					</View>
 				) : (
-					<TouchableOpacity style={styles.addButton} onPress={toggleEditor}>
-						<Text style={styles.buttonText}>+ Add Contact</Text>
-					</TouchableOpacity>
+					<Button
+						title="+ Add Contact"
+						style={styles.addButton}
+						onPress={toggleEditor}
+						uppercase={false}
+						color={PRIMARY_COLOR}
+					/>
 				)
 			}
 			</View>
@@ -110,7 +122,7 @@ const ContactsPage = ({navigation}) => {
 					title="Done!"
 					onPress={onDone}
 					uppercase={false}
-					color='#3651a5'
+					color={PRIMARY_COLOR}
 					style={styles.doneButton}
 					disabled={contacts.length === 0}
 				/>
@@ -134,14 +146,8 @@ const styles = StyleSheet.create({
 		paddingTop: 20
 	},
 	addButton: {
-		justifyContent: 'flex-end',
-		borderRadius: 20,
-		backgroundColor: '#3651a5',
-		alignItems: 'center',
-		top: 10,
-		alignSelf: 'flex-start',
-		paddingLeft: 10,
-		paddingRight: 10,
+		marginTop: 10,
+		alignSelf: 'flex-start'
 	},
 	editorButtons: {
 		flexDirection: 'row',

@@ -1,5 +1,7 @@
 import React from 'react';
 import { Text, View, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { PRIMARY_COLOR } from '../../consts';
+import { Button } from '@react-native-material/core';
 
 const HomePage = ({navigation}) => {
 	const onPress = () => {
@@ -8,12 +10,17 @@ const HomePage = ({navigation}) => {
 
 	return (
 		<View style={styles.container}>
-			<View style={styles.container2}>
+			<View style={{flex: 1, marginTop: '50%'}}>
 				<Image source={require("../../assets/logo.png")} style={styles.logo}/>
-				<TouchableOpacity style={styles.button} onPress={onPress}>
-					<Text style={styles.buttonText}>Start Here</Text>
-				</TouchableOpacity>
 			</View>
+
+			<Button
+				title="Start Here"
+				style={styles.button}
+				onPress={onPress}
+				uppercase={false}
+				color={PRIMARY_COLOR}
+			/>
 		</View>
 	);
 };
@@ -21,11 +28,9 @@ const HomePage = ({navigation}) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: 'center'
-	},
-	container2: {
-		flex: 0.6,
-		alignItems: 'center'
+		justifyContent: 'space-between',
+		alignItems: 'center',
+		marginBottom: 20
 	},
 	logo: {
 		width: '80%',
@@ -34,11 +39,7 @@ const styles = StyleSheet.create({
 		resizeMode:'contain'
 	},
 	button: {
-		width: '50%',
-		borderRadius: 20,
-		backgroundColor: '#3651a5',
-		alignItems: 'center',
-		top: 40
+		width: '60%'
 	},
 	buttonText: {
 		fontSize: 25,

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useMemo, useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
-import { TextInput, Switch } from '@react-native-material/core';
+import { TextInput, Switch, Button } from '@react-native-material/core';
 import store, { ACTIONS } from '../../store';
+import { PRIMARY_COLOR, SECONDARY_COLOR } from '../../consts';
 
 const SENSORS = [
 	'Battery Status',
@@ -15,6 +16,10 @@ const ProfilePage = ({navigation}) => {
 	const [lastName, setLastName] = useState('');
 
 	const [sensorsValues, setSensorsValues] = useState(SENSORS.map(() => false));
+
+	const isValid = useMemo(() => (
+		firstName.length > 0 && lastName.length > 0 && sensorsValues.some(value => value)
+	), [firstName, lastName, sensorsValues]);
 
 	const onToggle = (sensorIndex) => (value) => {
 		setSensorsValues((sensors) => {
@@ -39,26 +44,51 @@ const ProfilePage = ({navigation}) => {
 
 	return (
 		<View style={styles.container}>
-			<Text style={styles.title}>Personal Info</Text>
-			<View style={styles.personalInfo}>
-				<TextInput label="First Name" value={firstName} onChangeText={setFirstName} style={styles.text} />
-				<TextInput label="Last Name" value={lastName} onChangeText={setLastName} style={styles.text} />
+			<View>
+				<Text style={styles.title}>Personal Info</Text>
+				<View style={styles.personalInfo}>
+					<TextInput
+						label="First Name"
+						value={firstName}
+						onChangeText={setFirstName}
+						style={styles.text}
+						color={PRIMARY_COLOR}
+					/>
+
+					<TextInput
+						label="Last Name"
+						value={lastName}
+						onChangeText={setLastName}
+						style={styles.text}
+						color={PRIMARY_COLOR}
+					/>
+				</View>
+
+				<Text style={styles.title}>Sensors</Text>
+				{
+					SENSORS.map((sensor, index) => (
+						<View style={styles.sensorItem} key={sensor}>
+							<Text style={{fontSize: 16}}>{sensor}</Text>
+							<Switch
+								value={sensorsValues[index]}
+								onValueChange={onToggle(index)}
+								trackColor={{true: SECONDARY_COLOR, false: '#d7d7d7'}}
+								thumbColor={sensorsValues[index] ? PRIMARY_COLOR : undefined}
+							/>
+						</View>
+					))
+				}
 			</View>
 
-			<Text style={styles.title}>Sensors</Text>
-			{
-				SENSORS.map((sensor, index) => (
-					<View style={styles.sensorItem} key={sensor}>
-						<Text>{sensor}</Text>
-						<Switch value={sensorsValues[index]} onValueChange={onToggle(index)} />
-					</View>
-				))
-			}
-
-			<View style={{alignItems: 'center'}}>
-				<TouchableOpacity style={styles.button} onPress={onPress}>
-					<Text style={styles.buttonText}>One More Step</Text>
-				</TouchableOpacity>
+			<View style={{alignItems: 'center', width: '100%'}}>
+				<Button
+					title="One More Step"
+					style={styles.button}
+					onPress={onPress}
+					uppercase={false}
+					color={PRIMARY_COLOR}
+					disabled={!isValid}
+				/>
 			</View>
 		</View>
 	);
@@ -68,12 +98,15 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		width: '90%',
-		alignSelf: 'center'
+		alignSelf: 'center',
+		justifyContent: 'space-between',
+		marginBottom: 20
 	},
 	title: {
 		paddingTop: 20,
 		paddingBottom: 10,
-		fontSize: 20
+		fontSize: 22,
+		fontWeight: 'bold'
 	},
 	personalInfo: {
 		justifyContent: 'space-between',
@@ -85,15 +118,12 @@ const styles = StyleSheet.create({
 	},
 	sensorItem: {
 		flexDirection: 'row',
-		justifyContent: 'space-between'
+		justifyContent: 'space-between',
+		paddingBottom: 16,
+		alignItems: 'center'
 	},
 	button: {
-		justifyContent: 'flex-end',
-		width: '60%',
-		borderRadius: 20,
-		backgroundColor: '#3651a5',
-		alignItems: 'center',
-		top: 40
+		width: '60%'
 	},
 	buttonText: {
 		fontSize: 20,
