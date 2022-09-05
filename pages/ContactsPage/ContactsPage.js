@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { ListItem, TextInput, Button} from '@react-native-material/core';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-const ContactsPage = () => {
+const ContactsPage = ({navigation}) => {
 	const [contacts, setContacts] = useState([]);
 	const [isEditor, setIsEditor] = useState(false);
 
@@ -21,12 +21,21 @@ const ContactsPage = () => {
 		toggleEditor();
 	};
 
+	const onDone = () => {
+		navigation.navigate('idle-page');
+	};
+
 	return (
 		<View style={styles.container}>
+			<View>
 			{
-				contacts.map(({name, phoneNumber}) => (
-					<ListItem key={phoneNumber} title={name} secondaryText={phoneNumber} />
-				))
+				contacts.length > 0 ? (
+					contacts.map(({name, phoneNumber}) => (
+						<ListItem key={phoneNumber} title={name} secondaryText={phoneNumber} />
+					))
+				) : (
+					<Text style={{fontSize: 16}}>No contacts yet</Text>
+				)
 			}
 
 			{
@@ -72,15 +81,30 @@ const ContactsPage = () => {
 					</TouchableOpacity>
 				)
 			}
+			</View>
+
+			<View style={{alignItems: 'center', width: '100%'}}>
+				<Button
+					title="Done!"
+					onPress={onDone}
+					uppercase={false}
+					color='#3651a5'
+					style={styles.doneButton}
+					disabled={contacts.length === 0}
+				/>
+			</View>
 		</View>
 	)
 };
 
 const styles = StyleSheet.create({
 	container: {
+		flex: 1,
 		width: '90%',
+		marginBottom: 20,
 		alignSelf: 'center',
-		paddingTop: 20
+		paddingTop: 20,
+		justifyContent: 'space-between'
 	},
 	textInputs: {
 		flexDirection: 'row',
@@ -105,6 +129,9 @@ const styles = StyleSheet.create({
 		fontSize: 20,
 		color: 'white',
 		fontWeight: 'bold'
+	},
+	doneButton: {
+		width: '60%'
 	}
 });
 
