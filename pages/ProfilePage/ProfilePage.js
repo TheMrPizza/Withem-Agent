@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import { TextInput, Switch } from '@react-native-material/core';
+import store, { ACTIONS } from '../../store';
 
 const SENSORS = [
 	'Battery Status',
@@ -24,6 +25,15 @@ const ProfilePage = ({navigation}) => {
 	};
 
 	const onPress = () => {
+		store.dispatch({
+			type: ACTIONS.ADD_PERSONAL_INFO,
+			payload: {
+				firstName,
+				lastName,
+				sensors: sensorsValues
+			}
+		});
+
 		navigation.navigate('contacts-page');
 	};
 
