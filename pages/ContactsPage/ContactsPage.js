@@ -50,13 +50,13 @@ const ContactsPage = ({navigation}) => {
 
 	return (
 		<View style={styles.container}>
-			<View>
 			{
 				isSnackBarOpen && (
 					<Snackbar message="Failed to create user" style={styles.snackBar} />
 				)
 			}
 
+			<View>
 			{
 				contacts.length > 0 ? (
 					contacts.map(({name, phoneNumber}) => (
